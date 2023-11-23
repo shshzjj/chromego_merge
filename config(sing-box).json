@@ -1,0 +1,964 @@
+{
+    "log": {
+      "level": "debug",
+      "timestamp": true
+    },
+    "dns": {
+      "servers": [
+        {
+          "tag": "proxyDns",
+          "address": "8.8.8.8",
+          "detour": "proxy"
+        },
+        {
+          "tag": "localDns",
+          "address": "https://223.5.5.5/dns-query",
+          "detour": "direct"
+        },
+        {
+          "tag": "block",
+          "address": "rcode://success"
+        },
+        {
+          "tag": "remote",
+          "address": "fakeip"
+        }
+      ],
+      "rules": [
+        {
+          "domain": [
+            "ghproxy.com",
+            "cdn.jsdelivr.net",
+            "testingcf.jsdelivr.net"
+          ],
+          "server": "localDns"
+        },
+        {
+          "geosite": "category-ads-all",
+          "server": "block"
+        },
+        {
+          "outbound": "any",
+          "server": "localDns",
+          "disable_cache": true
+        },
+        {
+          "geosite": "cn",
+          "server": "localDns"
+        },
+        {
+          "clash_mode": "direct",
+          "server": "localDns"
+        },
+        {
+          "clash_mode": "global",
+          "server": "proxyDns"
+        },
+        {
+          "geosite": "geolocation-!cn",
+          "server": "proxyDns"
+        },
+        {
+          "query_type": [
+            "A",
+            "AAAA"
+          ],
+          "server": "remote"
+        }
+      ],
+      "fakeip": {
+        "enabled": true,
+        "inet4_range": "198.18.0.0/15",
+        "inet6_range": "fc00::/18"
+      },
+      "independent_cache": true,
+      "strategy": "ipv4_only"
+    },
+    "inbounds": [
+      {
+        "type": "tun",
+        "inet4_address": "172.19.0.1/30",
+        "mtu": 9000,
+        "auto_route": true,
+        "strict_route": true,
+        "sniff": true,
+        "endpoint_independent_nat": false,
+        "stack": "system",
+        "platform": {
+          "http_proxy": {
+            "enabled": true,
+            "server": "127.0.0.1",
+            "server_port": 7890
+          }
+        }
+      },
+      {
+        "type": "mixed",
+        "listen": "127.0.0.1",
+        "listen_port": 7890,
+        "sniff": true,
+        "users": []
+      }
+    ],
+    "outbounds": [
+      {
+        "tag": "proxy",
+        "type": "selector",
+        "outbounds": [
+          "autoGo",
+          "auto3K",
+          "direct"
+        ]
+      },
+      {
+        "tag": "🤖 OpenAI",
+        "type": "selector",
+        "outbounds": [
+          "direct",
+          "autoGo",
+          "auto3K"
+        ]
+      },
+      {
+        "tag": "🌌 Google",
+        "type": "selector",
+        "outbounds": [
+          "direct",
+          "autoGo",
+          "auto3K"
+        ]
+      },
+      {
+        "tag": "📟 Telegram",
+        "type": "selector",
+        "outbounds": [
+          "direct",
+          "autoGo",
+          "auto3K"
+        ]
+      },
+      {
+        "tag": "🐦 Twitter",
+        "type": "selector",
+        "outbounds": [
+          "direct",
+          "autoGo",
+          "auto3K"
+        ]
+      },
+      {
+        "tag": "👤 Facebook",
+        "type": "selector",
+        "outbounds": [
+          "direct",
+          "autoGo",
+          "auto3K"
+        ]
+      },
+      {
+        "tag": "🛍️ Amazon",
+        "type": "selector",
+        "outbounds": [
+          "direct",
+          "autoGo",
+          "auto3K"
+        ]
+      },
+      {
+        "tag": "🍎 Apple",
+        "type": "selector",
+        "outbounds": [
+          "direct",
+          "autoGo",
+          "auto3K"
+        ]
+      },
+      {
+        "tag": "🧩 Microsoft",
+        "type": "selector",
+        "outbounds": [
+          "direct",
+          "autoGo",
+          "auto3K"
+        ]
+      },
+      {
+        "tag": "🎮 Game",
+        "type": "selector",
+        "outbounds": [
+          "direct",
+          "autoGo",
+          "auto3K"
+        ]
+      },
+      {
+        "tag": "📺 Bilibili",
+        "type": "selector",
+        "outbounds": [
+          "direct"
+        ]
+      },
+      {
+        "tag": "🎬 MediaVideo",
+        "type": "selector",
+        "outbounds": [
+          "direct",
+          "autoGo",
+          "auto3K"
+        ]
+      },
+      {
+        "tag": "🌏 !cn",
+        "type": "selector",
+        "outbounds": [
+          "direct",
+          "autoGo",
+          "auto3K"
+        ]
+      },
+      {
+        "tag": "🌏 cn",
+        "type": "selector",
+        "outbounds": [
+          "direct",
+          "proxy"
+        ]
+      },
+      {
+        "tag": "🛑 AdBlock",
+        "type": "selector",
+        "outbounds": [
+          "block",
+          "direct"
+        ]
+      },
+      {
+        "tag": "autoGo",
+        "type": "urltest",
+        "outbounds": [
+          "meta_hysteria2_01",
+          "meta_hysteria_02",
+          "meta_tuic_11",
+          "meta_tuic_21",
+          "meta_tuic_31",
+          "meta_hysteria_41",
+          "meta_tuic_51",
+          "meta_tuic_61",
+          "meta_hysteria_71",
+          "meta_hysteria_81",
+          "meta_hysteria_91",
+          "hysteria_0",
+          "hysteria_1",
+          "hysteria_2",
+          "hysteria_3",
+          "hysteria2_0",
+          "hysteria2_1",
+          "hysteria2_2",
+          "hysteria2_3"
+        ],
+        "url": "http://www.gstatic.com/generate_204",
+        "interval": "1m",
+        "tolerance": 50
+      },
+      {
+        "tag": "auto3K",
+        "type": "urltest",
+        "outbounds": [
+          "IPv6-HTTPS-443",
+          "sa.jaffax.top-HTTPS-443",
+          "www.spliiit.com-HTTPS-443",
+          "www.bonusfinder.ie-HTTPS-443",
+          "oc.skk.moe-HTTPS-443",
+          "auto-dns.ljy2345.com-HTTPS-443",
+          "finanzaonline.com-HTTPS-443"
+        ],
+        "url": "http://www.gstatic.com/generate_204",
+        "interval": "1m",
+        "tolerance": 50
+      },
+      {
+        "type": "direct",
+        "tag": "direct"
+      },
+      {
+        "type": "dns",
+        "tag": "dns-out"
+      },
+      {
+        "type": "block",
+        "tag": "block"
+      },
+      {
+        "tag": "meta_hysteria2_01",
+        "type": "hysteria2",
+        "server": "109.104.152.219",
+        "server_port": 22998,
+        "password": "dongtaiwang.com",
+        "up_mbps": 100,
+        "down_mbps": 100,
+        "tls": {
+          "enabled": true,
+          "server_name": "bing.com",
+          "insecure": true,
+          "alpn": [
+            "h3"
+          ]
+        }
+      },
+      {
+        "tag": "meta_hysteria_02",
+        "type": "hysteria",
+        "server": "167.160.90.251",
+        "server_port": 48089,
+        "up_mbps": 11,
+        "down_mbps": 55,
+        "auth_str": "dongtaiwang.com",
+        "tls": {
+          "enabled": true,
+          "server_name": "167.160.90.251",
+          "alpn": [
+            "h3"
+          ],
+          "insecure": true
+        }
+      },
+      {
+        "tag": "meta_tuic_11",
+        "type": "tuic",
+        "server": "tuic1.freeh1.xyz",
+        "server_port": 40981,
+        "uuid": "c2faac69-e1c1-4bf5-b8a8-d2ce4d834a66",
+        "password": "dongtaiwang",
+        "congestion_control": "bbr",
+        "udp_relay_mode": "native",
+        "zero_rtt_handshake": false,
+        "heartbeat": "10s",
+        "tls": {
+          "enabled": true,
+          "alpn": [
+            "h3"
+          ],
+          "insecure": true
+        }
+      },
+      {
+        "tag": "meta_tuic_21",
+        "type": "tuic",
+        "server": "tuic3.dtku47.xyz",
+        "server_port": 12255,
+        "uuid": "ed6a538a-6e66-4f21-a769-4b389bb2f3ab",
+        "password": "dongtaiwang",
+        "congestion_control": "bbr",
+        "udp_relay_mode": "native",
+        "zero_rtt_handshake": false,
+        "heartbeat": "10s",
+        "tls": {
+          "enabled": true,
+          "alpn": [
+            "h3"
+          ],
+          "insecure": true
+        }
+      },
+      {
+        "tag": "meta_tuic_31",
+        "type": "tuic",
+        "server": "108.181.24.7",
+        "server_port": 23450,
+        "uuid": "3618921b-adeb-4bd3-a2a0-f98b72a674b1",
+        "password": "dongtaiwang",
+        "congestion_control": "bbr",
+        "udp_relay_mode": "native",
+        "zero_rtt_handshake": false,
+        "heartbeat": "10s",
+        "tls": {
+          "enabled": true,
+          "alpn": [
+            "h3"
+          ],
+          "insecure": true
+        }
+      },
+      {
+        "tag": "meta_hysteria_41",
+        "type": "hysteria",
+        "server": "www.dtku46.xyz",
+        "server_port": 11223,
+        "up_mbps": 11,
+        "down_mbps": 55,
+        "auth_str": "mqoE9qSoyMFa",
+        "tls": {
+          "enabled": true,
+          "server_name": "www.dtku46.xyz",
+          "alpn": [
+            "h3"
+          ],
+          "insecure": true
+        }
+      },
+      {
+        "tag": "meta_tuic_51",
+        "type": "tuic",
+        "server": "108.181.22.205",
+        "server_port": 50987,
+        "uuid": "d6214437-e1b5-4334-9090-8f66b78bea89",
+        "password": "dongtaiwang",
+        "congestion_control": "bbr",
+        "udp_relay_mode": "native",
+        "zero_rtt_handshake": false,
+        "heartbeat": "10s",
+        "tls": {
+          "enabled": true,
+          "alpn": [
+            "h3"
+          ],
+          "insecure": true
+        }
+      },
+      {
+        "tag": "meta_tuic_61",
+        "type": "tuic",
+        "server": "108.181.22.239",
+        "server_port": 19988,
+        "uuid": "485ce799-da5f-46e8-a82b-8ef322d8602f",
+        "password": "dongtaiwang.com",
+        "congestion_control": "bbr",
+        "udp_relay_mode": "native",
+        "zero_rtt_handshake": false,
+        "heartbeat": "10s",
+        "tls": {
+          "enabled": true,
+          "alpn": [
+            "h3"
+          ],
+          "insecure": true
+        }
+      },
+      {
+        "tag": "meta_hysteria_71",
+        "type": "hysteria",
+        "server": "www.dtku50.xyz",
+        "server_port": 14751,
+        "up_mbps": 2,
+        "down_mbps": 10,
+        "auth_str": "6qSZyyl4eTT8hqPMQxdhIgpxQfTyW1Oq6GBwQVhA2vBOw7QIGY",
+        "tls": {
+          "enabled": true,
+          "server_name": "www.microsoft.com",
+          "alpn": [
+            "h3"
+          ],
+          "insecure": true
+        }
+      },
+      {
+        "tag": "meta_hysteria_81",
+        "type": "hysteria",
+        "server": "62.204.54.81",
+        "server_port": 37899,
+        "up_mbps": 5,
+        "down_mbps": 10,
+        "auth_str": "OdHFS3zC3HlSYJmc0GLQNKLAlwDbJqEmonVBXmI07T0Ojb1bQB",
+        "tls": {
+          "enabled": true,
+          "server_name": "www.microsoft.com",
+          "alpn": [
+            "h3"
+          ],
+          "insecure": true
+        }
+      },
+      {
+        "tag": "meta_hysteria_91",
+        "type": "hysteria",
+        "server": "www3.dtku49.xyz",
+        "server_port": 58693,
+        "up_mbps": 11,
+        "down_mbps": 55,
+        "auth_str": "nbdyVMqucpFMmyRiwcRQFI7EeKzJWjPYuks3ZzEhCv6HjeZvbh",
+        "tls": {
+          "enabled": true,
+          "server_name": "bing.com",
+          "alpn": [
+            "h3"
+          ],
+          "insecure": true
+        }
+      },
+      {
+        "tag": "hysteria_0",
+        "type": "hysteria",
+        "server": "109.104.152.180",
+        "server_port": 64502,
+        "up_mbps": 80,
+        "down_mbps": 100,
+        "auth_str": "kxeFKpB8fhGjP7cO7NNgXYr19ZsqKQMco612ZCfXiaJrojw571",
+        "tls": {
+          "enabled": true,
+          "server_name": "bing.com",
+          "alpn": [
+            "h3"
+          ],
+          "insecure": true
+        }
+      },
+      {
+        "tag": "hysteria_1",
+        "type": "hysteria",
+        "server": "173.234.25.52",
+        "server_port": 20164,
+        "up_mbps": 80,
+        "down_mbps": 100,
+        "auth_str": "Ljg6NNEATDqP97hdAdHe1lJv7ggtKc0h7zmCCZKCX3qY0LR64F",
+        "tls": {
+          "enabled": true,
+          "server_name": "www.microsoft.com",
+          "alpn": [
+            "h3"
+          ],
+          "insecure": true
+        }
+      },
+      {
+        "tag": "hysteria_2",
+        "type": "hysteria",
+        "server": "109.104.152.149",
+        "server_port": 48406,
+        "up_mbps": 80,
+        "down_mbps": 100,
+        "auth_str": "xfNhrunYJ9GvDXCTktY2bIwhc1EyeyyAbiUMx1UtBOWgI4cMVB",
+        "tls": {
+          "enabled": true,
+          "server_name": "www.amazon.cn",
+          "alpn": [
+            "h3"
+          ],
+          "insecure": true
+        }
+      },
+      {
+        "tag": "hysteria_3",
+        "type": "hysteria",
+        "server": "51.158.54.46",
+        "server_port": 11926,
+        "up_mbps": 80,
+        "down_mbps": 100,
+        "auth_str": "Trz2alKwzCImRAXI3nXfpo1ylpHfqOL8s1vageWKoyjjvWeMVs",
+        "tls": {
+          "enabled": true,
+          "server_name": "youku.com",
+          "alpn": [
+            "h3"
+          ],
+          "insecure": true
+        }
+      },
+      {
+        "tag": "hysteria2_0",
+        "type": "hysteria2",
+        "server": "www.dtku46.xyz",
+        "server_port": 49730,
+        "password": "dongtaiwang.com",
+        "up_mbps": 10,
+        "down_mbps": 100,
+        "tls": {
+          "enabled": true,
+          "server_name": "www.bing.com",
+          "insecure": true,
+          "alpn": [
+            "h3"
+          ]
+        }
+      },
+      {
+        "tag": "hysteria2_1",
+        "type": "hysteria2",
+        "server": "108.181.22.155",
+        "server_port": 44141,
+        "password": "dongtaiwang.com",
+        "up_mbps": 10,
+        "down_mbps": 100,
+        "tls": {
+          "enabled": true,
+          "server_name": "www.bing.com",
+          "insecure": true,
+          "alpn": [
+            "h3"
+          ]
+        }
+      },
+      {
+        "tag": "hysteria2_2",
+        "type": "hysteria2",
+        "server": "www.dtku48.xyz",
+        "server_port": 49694,
+        "password": "dongtaiwang.com",
+        "up_mbps": 10,
+        "down_mbps": 100,
+        "tls": {
+          "enabled": true,
+          "server_name": "www.bing.com",
+          "insecure": true,
+          "alpn": [
+            "h3"
+          ]
+        }
+      },
+      {
+        "tag": "hysteria2_3",
+        "type": "hysteria2",
+        "server": "108.181.22.155",
+        "server_port": 44141,
+        "password": "dongtaiwang.com",
+        "up_mbps": 10,
+        "down_mbps": 100,
+        "tls": {
+          "enabled": true,
+          "server_name": "www.bing.com",
+          "insecure": true,
+          "alpn": [
+            "h3"
+          ]
+        }
+      },
+      {
+        "tag": "IPv6-HTTPS-443",
+        "type": "vless",
+        "server": "2606:4700::",
+        "server_port": 443,
+        "uuid": "4abda533-9fb5-4244-96bf-99da889c55aa",
+        "packet_encoding": "xudp",
+        "tls": {
+          "enabled": true,
+          "insecure": true,
+          "server_name": "3k.jaffax.top",
+          "utls": {
+            "enabled": true,
+            "fingerprint": "random"
+          }
+        },
+        "transport": {
+          "type": "ws",
+          "path": "/",
+          "headers": {
+            "Host": "3k.jaffax.top"
+          },
+          "early_data_header_name": "Sec-WebSocket-Protocol",
+          "max_early_data": 2048
+        }  
+      },
+      {
+        "tag": "sa.jaffax.top-HTTPS-443",
+        "type": "vless",
+        "server": "sa.jaffax.top",
+        "server_port": 443,
+        "uuid": "4abda533-9fb5-4244-96bf-99da889c55aa",
+        "packet_encoding": "xudp",
+        "tls": {
+          "enabled": true,
+          "insecure": true,
+          "server_name": "3k.jaffax.top",
+          "utls": {
+            "enabled": true,
+            "fingerprint": "random"
+          }
+        },
+        "transport": {
+          "type": "ws",
+          "path": "/",
+          "headers": {
+            "Host": "3k.jaffax.top"
+          },
+          "early_data_header_name": "Sec-WebSocket-Protocol",
+          "max_early_data": 2048
+        }  
+      },
+      {
+        "tag": "www.spliiit.com-HTTPS-443",
+        "type": "vless",
+        "server": "www.spliiit.com",
+        "server_port": 443,
+        "uuid": "4abda533-9fb5-4244-96bf-99da889c55aa",
+        "packet_encoding": "xudp",
+        "tls": {
+          "enabled": true,
+          "insecure": true,
+          "server_name": "3k.jaffax.top",
+          "utls": {
+            "enabled": true,
+            "fingerprint": "random"
+          }
+        },
+        "transport": {
+          "type": "ws",
+          "path": "/",
+          "headers": {
+            "Host": "3k.jaffax.top"
+          },
+          "early_data_header_name": "Sec-WebSocket-Protocol",
+          "max_early_data": 2048
+        }  
+      },
+      {
+        "tag": "www.bonusfinder.ie-HTTPS-443",
+        "type": "vless",
+        "server": "www.bonusfinder.ie",
+        "server_port": 443,
+        "uuid": "4abda533-9fb5-4244-96bf-99da889c55aa",
+        "packet_encoding": "xudp",
+        "tls": {
+          "enabled": true,
+          "insecure": true,
+          "server_name": "3k.jaffax.top",
+          "utls": {
+            "enabled": true,
+            "fingerprint": "random"
+          }
+        },
+        "transport": {
+          "type": "ws",
+          "path": "/",
+          "headers": {
+            "Host": "3k.jaffax.top"
+          },
+          "early_data_header_name": "Sec-WebSocket-Protocol",
+          "max_early_data": 2048
+        }  
+      },
+      {
+        "tag": "oc.skk.moe-HTTPS-443",
+        "type": "vless",
+        "server": "oc.skk.moe",
+        "server_port": 443,
+        "uuid": "4abda533-9fb5-4244-96bf-99da889c55aa",
+        "packet_encoding": "xudp",
+        "tls": {
+          "enabled": true,
+          "insecure": true,
+          "server_name": "3k.jaffax.top",
+          "utls": {
+            "enabled": true,
+            "fingerprint": "random"
+          }
+        },
+        "transport": {
+          "type": "ws",
+          "path": "/",
+          "headers": {
+            "Host": "3k.jaffax.top"
+          },
+          "early_data_header_name": "Sec-WebSocket-Protocol",
+          "max_early_data": 2048
+        }  
+      },
+      {
+        "tag": "auto-dns.ljy2345.com-HTTPS-443",
+        "type": "vless",
+        "server": "auto-dns.ljy2345.com",
+        "server_port": 443,
+        "uuid": "4abda533-9fb5-4244-96bf-99da889c55aa",
+        "packet_encoding": "xudp",
+        "tls": {
+          "enabled": true,
+          "insecure": true,
+          "server_name": "3k.jaffax.top",
+          "utls": {
+            "enabled": true,
+            "fingerprint": "random"
+          }
+        },
+        "transport": {
+          "type": "ws",
+          "path": "/",
+          "headers": {
+            "Host": "3k.jaffax.top"
+          },
+          "early_data_header_name": "Sec-WebSocket-Protocol",
+          "max_early_data": 2048
+        }  
+      },
+      {
+        "tag": "finanzaonline.com-HTTPS-443",
+        "type": "vless",
+        "server": "finanzaonline.com",
+        "server_port": 443,
+        "uuid": "4abda533-9fb5-4244-96bf-99da889c55aa",
+        "packet_encoding": "xudp",
+        "tls": {
+          "enabled": true,
+          "insecure": true,
+          "server_name": "3k.jaffax.top",
+          "utls": {
+            "enabled": true,
+            "fingerprint": "random"
+          }
+        },
+        "transport": {
+          "type": "ws",
+          "path": "/",
+          "headers": {
+            "Host": "3k.jaffax.top"
+          },
+          "early_data_header_name": "Sec-WebSocket-Protocol",
+          "max_early_data": 2048
+        }  
+      }
+    ],
+    "route": {
+      "auto_detect_interface": true,
+      "final": "proxy",
+      "geoip": {
+        "download_url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.db",
+        "download_detour": "direct"
+      },
+      "geosite": {
+        "download_url": "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.db",
+        "download_detour": "direct"
+      },
+      "rules": [
+        {
+          "protocol": "dns",
+          "outbound": "dns-out"
+        },
+        {
+          "network": "udp",
+          "port": 443,
+          "outbound": "block"
+        },
+        {
+          "geosite": "category-ads-all",
+          "outbound": "🛑 AdBlock"
+        },
+        {
+          "clash_mode": "direct",
+          "outbound": "direct"
+        },
+        {
+          "clash_mode": "global",
+          "outbound": "proxy"
+        },
+        {
+          "domain": [
+            "clash.razord.top",
+            "yacd.metacubex.one",
+            "yacd.haishan.me",
+            "d.metacubex.one"
+          ],
+          "outbound": "direct"
+        },
+        {
+          "geosite": "openai",
+          "outbound": "🤖 OpenAI"
+        },
+        {
+          "geosite": "youtube",
+          "outbound": "🌌 Google"
+        },
+        {
+          "geoip": "google",
+          "outbound": "🌌 Google"
+        },
+        {
+          "geosite": [
+            "google",
+            "github"
+          ],
+          "outbound": "🌌 Google"
+        },
+        {
+          "geoip": "telegram",
+          "outbound": "📟 Telegram"
+        },
+        {
+          "geosite": "telegram",
+          "outbound": "📟 Telegram"
+        },
+        {
+          "geoip": "twitter",
+          "outbound": "🐦 Twitter"
+        },
+        {
+          "geosite": "twitter",
+          "outbound": "🐦 Twitter"
+        },
+        {
+          "geoip": "facebook",
+          "outbound": "👤 Facebook"
+        },
+        {
+          "geosite": [
+            "facebook",
+            "instagram"
+          ],
+          "outbound": "👤 Facebook"
+        },
+        {
+          "geosite": "amazon",
+          "outbound": "🛍️ Amazon"
+        },
+        {
+          "geosite": "apple",
+          "outbound": "🍎 Apple"
+        },
+        {
+          "geosite": "apple-cn",
+          "outbound": "🍎 Apple"
+        },
+        {
+          "geosite": "microsoft",
+          "outbound": "🧩 Microsoft"
+        },
+        {
+          "geosite": "category-games",
+          "outbound": "🎮 Game"
+        },
+        {
+          "geosite": "bilibili",
+          "outbound": "📺 Bilibili"
+        },
+        {
+          "geoip": "netflix",
+          "outbound": "🎬 MediaVideo"
+        },
+        {
+          "geosite": [
+            "tiktok",
+            "netflix",
+            "hbo",
+            "disney",
+            "primevideo"
+          ],
+          "outbound": "🎬 MediaVideo"
+        },
+        {
+          "geosite": "geolocation-!cn",
+          "outbound": "🌏 !cn"
+        },
+        {
+          "geoip": [
+            "private",
+            "cn"
+          ],
+          "outbound": "🌏 cn"
+        },
+        {
+          "geosite": "cn",
+          "outbound": "🌏 cn"
+        }
+      ]
+    },
+    "experimental": {
+      "clash_api": {
+        "external_controller": "127.0.0.1:9090",
+        "external_ui_download_url": "",
+        "external_ui_download_detour": "",
+        "external_ui": "ui",
+        "secret": "",
+        "default_mode": "rule",
+        "store_selected": true,
+        "cache_file": "",
+        "cache_id": ""
+      }
+    }
+  }
+  
